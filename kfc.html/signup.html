@@ -1,0 +1,149 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Document</title> 
+ 
+    <style> 
+        .navbar{ 
+ 
+display: flex; 
+flex-direction: row; 
+justify-content: space-around; 
+padding: 15px; 
+position: fixed; 
+left: 0; 
+top: 0; 
+background-color: rgb(61, 60, 60); 
+width: 100%; 
+} 
+
+
+
+form {
+            margin-top: 100px; /* Adjust as needed */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cont {
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style> 
+</head> 
+<body> 
+ 
+ 
+ 
+<form> 
+    <div class="cont"> 
+<input type="text" id="name" placeholder="name.."> 
+<input type="email" id="email" placeholder="email.."> 
+<input type="text" id="password" placeholder="password.."> 
+<input type="password" id="confpass" placeholder="confirm password.."> 
+<input type="submit"> 
+</div> 
+</form> 
+</body> 
+</html> 
+<script> 
+ 
+ 
+let signdata=[] 
+let myform=document.querySelector("form") 
+ 
+myform.addEventListener("submit",function(e){ 
+    handleSubmit(e) 
+}) 
+ 
+function savedata(){ 
+    localStorage.setItem("signindata",JSON.stringify(signdata)) 
+} 
+ 
+ 
+function loadData(){ 
+    let storedData=JSON.parse(localStorage.getItem("signindata")) 
+ 
+    if(storedData){ 
+        signdata=storedData 
+    } 
+} 
+ 
+loadData() 
+ 
+ 
+ 
+function handleSubmit(e){ 
+    e.preventDefault() 
+ 
+    let inputs=e.target 
+    let name=inputs[0].value 
+    let email=inputs[1].value 
+    let password=inputs[2].value 
+    let confpassword=inputs[3].value 
+ 
+    if(password==confpassword){ 
+ 
+        let isSignup=signdata.filter(function(el,i){ 
+            return email==el.email  
+        }) 
+ 
+        if(isSignup.length>0){ 
+            alert("already in use") 
+        } 
+        else{ 
+ 
+         
+ 
+        let obj={ 
+            name, 
+            email, 
+            password, 
+            confpassword 
+        } 
+        signdata.push(obj) 
+        console.log(signdata) 
+        savedata() 
+        alert("register successfull") 
+        window.location.href="./login.html" 
+    } 
+    } 
+    else{ 
+        alert("wrong password..") 
+    } 
+ 
+} 
+ 
+ 
+ 
+ 
+</script>

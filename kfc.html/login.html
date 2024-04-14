@@ -1,0 +1,122 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Document</title> 
+    <style> 
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: Arial, sans-serif; 
+            background: url('background_image.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            height: 100vh; 
+             
+            justify-content: center; 
+            align-items: center; 
+        } 
+ 
+        form { 
+            max-width: 400px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: rgba(255, 255, 255, 0.8); 
+            border-radius: 5px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        } 
+ 
+        input[type="email"], 
+        input[type="password"] { 
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            box-sizing: border-box; 
+        } 
+ 
+        input[type="submit"] { 
+            width: 100%; 
+            background-color: #4caf50; 
+            color: #fff; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        } 
+ 
+        input[type="submit"]:hover { 
+            background-color: #45a049; 
+        } 
+ 
+    </style> 
+</head> 
+<body> 
+     
+ 
+<form> 
+    <h1>Please Log In User</h1> 
+    <input type="email" class="email" placeholder="email.."> 
+    <input type="password" class="loginpass" placeholder="password"> 
+    <input type="submit"> 
+</form> 
+</body> 
+</html> 
+<script> 
+ 
+ 
+ 
+let myform=document.querySelector("form") 
+ 
+myform.addEventListener("submit",function(e){ 
+    handlesubmit(e) 
+}) 
+ 
+let data 
+function loadData(){ 
+    let storedData=JSON.parse(localStorage.getItem("signindata")) 
+ 
+    if(storedData){ 
+        signdata=storedData 
+    } 
+    // console.log(signdata) 
+} 
+ 
+loadData() 
+ 
+ 
+ 
+ 
+ 
+function handlesubmit(e){ 
+    e.preventDefault() 
+ 
+    let inputs=e.target 
+ 
+    email=inputs[0].value 
+    password=inputs[1].value 
+ 
+     
+ 
+    let isLogin=signdata.filter(function(el,i){ 
+        return (el.email==email && el.password==password) 
+    }) 
+    console.log(isLogin) 
+    if(isLogin.length>0){ 
+        alert("Successfully LogIn..") 
+        window.location.href="./index.html" 
+ 
+ 
+    }else{ 
+        alert("Invalid email or password..")   
+        // window.location.href="./signup.html" 
+ 
+         
+    } 
+ 
+ 
+     
+} 
+</script>
