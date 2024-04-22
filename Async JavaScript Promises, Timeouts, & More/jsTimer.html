@@ -1,0 +1,72 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Timer</title> 
+</head> 
+<body> 
+    <label>Hour:</label> 
+    <input type="number" min="0" id="hour" value="0"> 
+    <label>Min:</label> 
+    <input type="number" min="0" max="59" value="0" id="min"> 
+    <label>Sec</label> 
+    <input type="number" min="0" max="59" value="0" id="sec"> 
+ 
+    <button onclick="startTimer()">start</button> 
+    <button onclick="stopTimer()">stop</button> 
+    <button onclick="resetTimer()">Reset</button> 
+</body> 
+</html> 
+<script> 
+ 
+ 
+let timeRemaining; 
+let intervalId; 
+ 
+function startTimer(){ 
+ 
+    let hour=Number(document.querySelector("#hour").value) 
+    let minute=Number(document.querySelector("#min").value) 
+    let second=Number(document.querySelector("#sec").value) 
+ 
+    timeRemaining=hour*3600+minute*60+second 
+     
+    intervalId=setInterval(function(){ 
+     
+        timeRemaining++ 
+ 
+        let Hours=Math.floor(timeRemaining/3600) 
+        let Minutes=Math.floor((timeRemaining%3600)/60) 
+        let Seconds=timeRemaining%60 
+ 
+        document.querySelector("#hour").value= Hours
+        document.querySelector("#min").value=Minutes 
+        document.querySelector("#sec").value=Seconds 
+ 
+ 
+        if(timeRemaining<=0){ 
+            clearInterval(intervalId) 
+            intervalId=null 
+        } 
+ 
+    },1000) 
+ 
+} 
+ 
+function stopTimer(){ 
+    clearInterval(intervalId) 
+    intervalId=null 
+} 
+ 
+function resetTimer(){ 
+    stopTimer() 
+ 
+ 
+    document.querySelector("#hour").value=0 
+        document.querySelector("#min").value=0 
+        document.querySelector("#sec").value=0 
+ 
+} 
+     
+</script>

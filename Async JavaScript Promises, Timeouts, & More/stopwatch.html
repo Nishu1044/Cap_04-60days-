@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+</head>
+<body>
+    <h1 id="hour">0</h1>
+    <h1 id="min">0</h1>
+    <h1 id="sec">0</h1>
+    <button onclick="start()">Start</button>
+    <button onclick="pause()">Pause</button>
+    <button onclick="reset()">Reset</button>
+</body>
+</html>
+
+<script>
+    const hourEl = document.getElementById("hour");
+    const mintEl = document.getElementById("min");
+    const secondEl = document.getElementById("sec");
+    let intervalId;
+    let hour = 0;
+    let min = 0;
+    let sec = 0;
+    let running = false;
+
+    function start() {
+        if (!running) {
+            intervalId = setInterval(updateTime, 1000);
+            running = true;
+        }
+    }
+
+    function pause() {
+        clearInterval(intervalId);
+        running = false;
+    }
+
+    function reset() {
+        clearInterval(intervalId);
+        hour = 0;
+        min = 0;
+        sec = 0;
+        hourEl.innerText = "0";
+        mintEl.innerText = "0";
+        secondEl.innerText = "0";
+        running = false;
+    }
+
+    function updateTime() {
+        sec++;
+        if (sec === 60) {
+            sec = 0;
+            min++;
+            if (min === 60) {
+                min = 0;
+                hour++;
+                hourEl.innerText = hour;
+            }
+            mintEl.innerText = min;
+        }
+        secondEl.innerText = sec;
+    }
+</script>

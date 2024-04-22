@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #imagebox{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="slidshow">slidshow-container</h1>
+    <button id="click">start/stop</button>
+    <button id="next">next</button>
+    <button id="previous">prev</button>
+
+    <h1 id="imagebox"></h1>
+</body>
+
+</html>
+
+
+<script>
+
+
+   
+   let imgarr=["https://media.istockphoto.com/id/498628231/photo/lake-of-blue-water.jpg?s=612x612&w=0&k=20&c=J211ukOSsh8KJqHPVhw5k8ndzDBChLNtJ44dzeKq8rA=", "https://media.istockphoto.com/id/1297561697/photo/srinagar-leh-highway-in-the-mountains-of-ladakh-india.jpg?s=612x612&w=0&k=20&c=usqAOjC_Q7TllKCk4Qc4vAGv8nZa7CozsZh-aV07Mkc=", "https://media.istockphoto.com/id/1297561697/photo/srinagar-leh-highway-in-the-mountains-of-ladakh-india.jpg?s=612x612&w=0&k=20&c=usqAOjC_Q7TllKCk4Qc4vAGv8nZa7CozsZh-aV07Mkc=","https://media.istockphoto.com/id/1189749646/photo/winter-ski-resort.jpg?s=612x612&w=0&k=20&c=ru2_IC4PtlxAkZEKvdYVvXW00lidTxye5ebpRwD-zcc=",
+       
+       "https://media.istockphoto.com/id/1206379291/photo/mughal-heritage-building-with-snoe-covered-zabarwan-mountains-in-the-background-during-autumn.jpg?s=612x612&w=0&k=20&c=uqe5-EpQjPf2TLJipcqmRjAKqLSOeFxAkMZYTWYIKN8=" ,
+       "https://media.istockphoto.com/id/1061972196/photo/camel-safari-ride-caravan-in-hunder-desert-nubra-valley-leh-ladakh-india.jpg?s=612x612&w=0&k=20&c=czU_-_ruVm2n917nAcClu9Cud6cRP3qmeUTM2njV_hU=" ,
+       "https://media.istockphoto.com/id/1335055609/photo/view-of-betab-valley-in-winter-season-near-pahalgam-kashmir-india.jpg?s=612x612&w=0&k=20&c=GhioTgbop5NtmOgZB41-lZMZRDKnccIYoJWSauRSQEI=",
+       "https://media.istockphoto.com/id/1197487526/photo/young-asian-traveling-in-pingong-lake-ladakh-india.jpg?s=612x612&w=0&k=20&c=EzeGnkVi-Mao1h7yW4_iKX2IfchQGO8zLDuS-Mp768g=",
+       "https://media.istockphoto.com/id/1391067486/photo/alpine-mountain-view-sonamarg-jammu-and-kashmir-landscape.jpg?s=612x612&w=0&k=20&c=4JuUba_bhC8lhGARYCFKxUrydbIAPIdIlLcRSbiqFuU=",
+       "https://media.istockphoto.com/id/1773036020/photo/a-very-old-bridge-of-iron-frame-on-parvati-valley-of-kasol-himachal-pradesh.jpg?s=612x612&w=0&k=20&c=YvpIlLSN5RSfKhuV2sUWephBR0OhtbKX_njlHI4U664=",
+       "https://media.istockphoto.com/id/1335055609/photo/view-of-betab-valley-in-winter-season-near-pahalgam-kashmir-india.jpg?s=612x612&w=0&k=20&c=GhioTgbop5NtmOgZB41-lZMZRDKnccIYoJWSauRSQEI=",
+       "https://media.istockphoto.com/id/1335055609/photo/view-of-betab-valley-in-winter-season-near-pahalgam-kashmir-india.jpg?s=612x612&w=0&k=20&c=GhioTgbop5NtmOgZB41-lZMZRDKnccIYoJWSauRSQEI=",
+    "https://media.istockphoto.com/id/665366534/photo/gandola-cable-car-in-gulmarg.jpg?s=612x612&w=0&k=20&c=15HVHYGv3e0AVTLI5B1W1RzIVAOsiAXvqFgfsbVsJYg=", 
+    "https://media.istockphoto.com/id/885836154/photo/carecrowns-corn-rows-pumkins-on-the-wine-leaves-curl-wind-swirls-fall-is-right-on-time.jpg?s=612x612&w=0&k=20&c=jphxhNUOeywlGFmGL246LC4GcTmjhR01zqf9dOWv0yU=",
+    "https://media.istockphoto.com/id/695168116/photo/paper-mache-boxes.jpg?s=612x612&w=0&k=20&c=w_qjlMuh5rzGHLBJLS49TqyxqacyfWQUhJ9RM_DoSCg=",
+    "https://media.istockphoto.com/id/505894124/photo/mutton-korma-famous-food-with-traditional-indian-background-item.jpg?s=612x612&w=0&k=20&c=JPWjequTHB5hBzHv97LNjUfV0cApiWXAxTOtFfjn808=",
+    "https://media.istockphoto.com/id/464194749/photo/tulip-garden.jpg?s=612x612&w=0&k=20&c=kSSLme4Gpvz22_zeO7BFW3Iw9eUfPGAL17UcUm-j4M4=",
+    "https://media.istockphoto.com/id/1328320922/photo/a-variety-of-colorful-boathouses-beautiful-lake-and-mountain-views.jpg?s=612x612&w=0&k=20&c=il9i-wFJZBcm7TqSRvF1s_AunmoSfKaJ8EYeRi19o_Y=",
+    "https://media.istockphoto.com/id/1441170422/photo/beautiful-view-of-srinagar-the-capital-of-kashmir-india-on-the-banks-of-the-jhelum-river.jpg?s=612x612&w=0&k=20&c=7PICrYxjcWUfvLJno6B3OBZYln-UbW5D9quxaRTYso4=",
+    "https://media.istockphoto.com/id/1251218178/photo/kashmir-valley-mountain-village.jpg?s=612x612&w=0&k=20&c=wTsVCiT1ssHWtrjQmox8UXC4Pa2qE4JG1U6stnaiKVI=",
+    "https://media.istockphoto.com/id/1071360168/photo/kashmir-receives-seasons-first-snowfall-the-snowfall-which-began-in-the-higher-reaches-of.jpg?s=612x612&w=0&k=20&c=aSLMNrid-a_aA7ZBZkHWRM-udWmEc4pJp4bRxQ_46o8=",
+
+]
+
+   // 1st step
+   let i = 0;
+   let img = document.createElement("img")
+   img.src = imgarr[i]
+
+  
+   let imagebox = document.getElementById("imagebox")
+   imagebox.append(img)
+
+//2nd step
+
+let start_stop = document.getElementById("click")
+let next = document.getElementById("next")
+let pre = document.getElementById("previous")
+
+
+//3rd step;
+let intervalId;
+start_stop.addEventListener("click",function(){
+    if (intervalId) {
+        // If interval is running, stop it
+        clearInterval(intervalId);
+        intervalId = null;
+      } else {
+        // If interval is not running, start it
+        intervalId = setInterval(function () {
+          i++;
+          img.src = imgarr[i];
+        }, 1000);
+      }
+    });
+
+// 4th step
+
+next.addEventListener("click",function(){
+    i++;
+    if(i>imgarr.length-1){
+      i=0;
+    }
+    img.src=imgarr[i]
+   
+})
+
+pre.addEventListener("click",function(){
+    i--;
+    if(i<=0){
+      i=imgarr.length-1;
+    }
+    img.src=imgarr[i]
+    
+})
+</script>
