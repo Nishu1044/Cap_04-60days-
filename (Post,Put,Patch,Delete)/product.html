@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        .cont{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            width: 80%;
+            gap: 30px;
+            margin: auto;
+        }
+        .cont img{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="user">
+        <h4 id="name"></h4>
+        <button onclick="logout()">Logout</button>
+        <a href="cart.html"><button>Cart</button></a>
+    </div>
+
+    <div class="cont">
+
+    </div>
+    
+</body>
+</html>
+<script>
+
+
+let loginUser=JSON.parse(localStorage.getItem("loginUser"))   
+let userName=document.querySelector("#name").innerText=`welcome ${loginUser.name}`
+
+let cont=document.querySelector(".cont")
+
+let getData=async ()=>{
+let res=await fetch(`http://localhost:3000/products`)
+let data=await res.json()
+showData(data)
+}
+getData()
+
+function showData(sampleData){
+    cont.innerHTML=""
+    sampleData.forEach((el,i)=> {
+
+        let divs=document.createElement("div")
+
+        let title=document.createElement("p")
+        title.innerText=el.title
+
+        let image=document.createElement("img")
+        image.setAttribute("src",el.src)
+
+        let price=document.createElement("h3")
+        price.innerText=el.price
+
+        let rating=document.createElement("h4")
+        rating.innerText=el.ratings
+
+        let addCart=document.createElement("button")
+        addCart.innerText="Add"
+
+        addCart.addEventListener("click",function(){
+            cart(el)
+        })
+
+
+        cont.append(divs)
+        divs.append(title,image,price,rating,addCart)
+
+        
+    });
+}
+
+async function cart(el) {
+  try {
+    let res = await fetch(`http://localhost:3000/allUsersCart`);
+    let data = await res.json();
+
+    if (!data[loginUser.name]) {
+      data[loginUser.name] = [];
+    }
+
+    data[loginUser.name].push(el);
+
+    await fetch(`http://localhost:3000/allUsersCart`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    // console.log( data);
+    alert("Item added to cart!")
+  } catch (error) {
+    console.error("Error", error)
+    alert("Failed")
+  }
+}
+
+
+function logout(){
+    localStorage.removeItem("loginUser")
+    alert("Log Out Successful")
+    window.location.href="signup.html"
+}
+
+</script>

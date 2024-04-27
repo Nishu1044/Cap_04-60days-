@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+
+
+<h4>signup...</h4>
+<input type="text" placeholder="name..." id="username">
+    <input type="text" placeholder="email..." id="useremail">
+    <input type="text" placeholder="password..." id="userpassword">
+    <button onclick="signup()">Signup</button>
+
+
+
+    <h2>login...</h2>
+    <input type="text" placeholder="email..." id="loginemail">
+    <input type="text" placeholder="password..." id="loginpass">
+    <button onclick="login()">Login</button>
+
+</body>
+</html>
+<script>
+function signup(){
+    
+    let name=document.querySelector("#username").value
+    let email=document.querySelector("#useremail").value
+    let password=document.querySelector("#userpassword").value
+
+    let user={name,email,password}
+
+    fetch(`http://localhost:3000/users`,{
+
+        method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(user)
+
+    })
+    .then(()=>{
+        alert("signup secc")
+    }).catch((err)=>{
+        console.log(err)
+        alert('error')
+    })
+      
+}
+
+
+async function login(){
+
+let loginemail=document.querySelector("#loginemail")
+let loginpass=document.querySelector("#loginpass")
+
+        let res=await fetch(`http://localhost:3000/users`)
+        let data=await res.json()
+
+        data.forEach((el)=>{
+            if(el.email==loginemail.value){
+                if(el.password==loginpass.value){
+                    localStorage.setItem("loginUser",JSON.stringify(el))
+                    alert("login Successful !")
+                    window.location.href="./product.html"
+                }else{
+                    alert("wrong password")
+                }
+            }
+        })
+        
+        
+    }
+    login()
+</script>
