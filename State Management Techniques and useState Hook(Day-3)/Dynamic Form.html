@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+
+
+    function App(){
+
+        const[arr,setArr]=React.useState([])
+        const[obj,setObj]=React.useState({
+            hobby:"",
+        })
+
+        function handleChange(e,index){
+            let keyhobby=e.target.name
+
+            const hobbies={
+                ...obj,
+                [keyhobby]:e.target.value
+            }
+            setObj(hobbies)
+        }
+
+        function handleSubmit(e){
+            e.preventDefault()
+
+            const arrhobbies=[...arr,obj]
+            console.log(arrhobbies);
+            setArr(arrhobbies)
+        }
+
+        function handleDel(index){
+            const delData=[...arr]
+            
+            delData.splice(index,1)
+            setArr(delData)
+        }
+
+
+        return(
+            <>
+            <form onSubmit={handleSubmit}>
+            <input type="text" placeholder="Hobby" name="hobby" value={obj.name} onChange={handleChange} />
+            <button>Add</button>
+
+            </form>
+
+            {arr.map((el,id)=>{
+                return <div key={id}>
+                    <h3>{el.hobby}</h3>
+                    {id > 0 && (
+                            <button onClick={() => handleDel(id)}>Delete</button>
+                        )}
+                
+                  
+                    </div>
+            })}
+            </>
+        )
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+  </script>
+</html>

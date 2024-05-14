@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+
+function App(){
+
+  const [arr,setArr]=React.useState([])
+  const[obj,setObj]=React.useState({
+    name:"",
+    address:"",
+    isCompleted:false
+  })
+
+  function handleChange(e){
+    const keyname=e.target.name
+
+    const keyvalue=keyname==="isCompleted"?event.target.checked:event.target.value
+
+    const objdata={
+      ...obj,
+      // [keyname]:e.target.value
+      [keyname]:keyvalue,
+    }
+    setObj(objdata)
+  }
+
+
+
+  function handleSubmit(event){
+event.preventDefault()  
+
+const arrdata=[...arr,obj] 
+console.log(arr)
+  setArr(arrdata)
+  }
+
+  function handledel(index){
+    const deldata=[...arr]
+    // console.log(deldata)
+    deldata.splice(index,1)
+    setArr(deldata)
+  }
+
+  const toggleTodo = (id) =>{
+     setTodo(prevTodo=>
+      prevTodo.map(arr=>
+      arr.id === id ? { ...arr, isCompleted: !isCompleted } : arr
+    )
+     );
+    };
+
+  return(
+    <>
+    <form onSubmit={handleSubmit}>
+      
+    <input type="text" name="name" onChange={handleChange} value={obj.name}/>
+   
+    <input type="text" name="address" value={obj.address} onChange={handleChange} />
+    
+    <button>submit</button>
+    
+  </form>
+
+  
+    {arr.map((el,id)=>{
+      return <div key={el.id}>
+        
+        <input type="checkbox" checked={arr.isCompleted} onChange={()=>toggleTodo(arr.id)}/>
+      <p>{el.name}</p>
+      <p>{el.address}</p>
+      <button onClick={()=>handledel(id)}>delete</button>
+    </div>
+    })}
+    
+    </>
+  )
+}
+
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+
+
+    </script>
