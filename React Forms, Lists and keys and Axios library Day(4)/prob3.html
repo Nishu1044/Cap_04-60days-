@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+<script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/babel">
+    // Your  code will go here
+    const { useEffect } = React
+
+
+
+
+
+
+
+    function App() {
+
+        function UserProfile({ el }) {
+
+            return (
+                <>
+                    <div>
+                        <img src={el.avatar} alt="" />
+                        <p>{el.first_name}</p>
+                        <p>{el.email}</p>
+                    </div>
+
+
+                </>
+            )
+        }
+
+
+
+
+
+
+
+
+
+
+        const [users, setUsers] = React.useState([])
+        const [search, setSearch] = React.useState("")
+
+        useEffect(() => {
+            fetchUsers()
+        }, [])
+
+        async function fetchUsers() {
+            try {
+
+                const resp = await axios.get("https://reqres.in/api/users")
+                setUsers(resp.data.data)
+                console.log(resp.data.data)
+            } catch (error) {
+                console.log(error)
+            }
+
+        }
+
+
+
+        function handleSearch(e) {
+
+            setSearch(e.target.value)
+
+
+        }
+        const filteredUsers = users.filter((user) =>
+            user.first_name.toLowerCase().includes(search.toLowerCase())
+        );
+
+        return (
+
+            <>
+                <h1>user Profile</h1>
+                <input type="text" value={search} onChange={handleSearch} />
+
+                {filteredUsers.map((el, id) => {
+                    return (
+                        <UserProfile key={el.id} el={el} />
+                    )
+                })}
+            </>
+        )
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+
+</script>
+
+</html>
