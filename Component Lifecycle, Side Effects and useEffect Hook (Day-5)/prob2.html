@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/babel">
+
+
+
+
+const { useEffect, useState } =React
+
+function Timer() {
+  const [count, setCount] = useState(10);
+  const [isActive, setisActive]= useState(true)
+
+
+function handlePause(){
+  setisActive(false)
+}
+
+function handleResume(){
+  setisActive(true)
+}
+
+
+
+
+useEffect(function(){
+
+  let intervalId;
+  // in line number 11 it will stop the whole useEffect code when cont down 0 
+  if(isActive){
+
+     intervalId=setInterval(function(){
+      setCount(function(prevCount){
+        // in line number 16 countdown will stop from 0
+        if(prevCount<=1){ 
+          setisActive(false)  
+          return 0
+        }
+        return prevCount-1
+      })
+  
+    },1000)
+  }
+ return ()=>{
+  clearInterval(intervalId)
+ }
+},[isActive])
+
+
+
+
+  return (
+    <>
+      <h1>Countdown: {count}</h1>
+      <button onClick={handlePause}>Stop</button>
+      <button onClick={handleResume}>Resume</button>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Timer/>)
+
+
+    </script>

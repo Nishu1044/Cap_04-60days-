@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/babel">
+
+const {useEffect}=React
+
+function App(){
+
+const [data,setData]=React.useState([])
+const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
+
+useEffect(()=>{
+fetchCountries()
+
+
+const handleMouseMove = (event) => {
+      setMousePosition({ x:event.clientX, y:event.clientY })
+      console.log(`Mouse position: X: ${event.clientX}, Y: ${event.clientY}`)
+    };
+
+    window.addEventListener('mousemove',handleMouseMove)
+
+    return () => {
+      window.removeEventListener('mousemove',handleMouseMove)
+    };
+
+},[])
+
+
+async function fetchCountries(){
+    try {
+        const resp=await axios.get("https://reqres.in/api/countries")
+        setData(resp.data.data)
+        console.log(resp.data.data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+useEffect(() => {
+document.title = `Countries Loaded: ${data.length}`
+  },[data])
+
+
+    return(
+        <>
+      {data.map((el) => (
+        <div key={el.id}>
+        <p >{el.name}</p>
+        <h2>{el.pantone_value
+}</h2>
+    </div>
+        
+      ))}
+
+      <div>
+        <p>Mouse Position: X: {mousePosition.x}, Y: {mousePosition.y}</p></div>
+    </>
+      ) 
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+</script>
