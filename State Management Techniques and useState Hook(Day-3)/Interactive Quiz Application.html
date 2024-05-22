@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+<script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    // Your  code will go here
+
+    function Quiz() {
+
+        const [currentAns, setCurrentAns] = React.useState({})
+        const [submitted, setSubmitted] = React.useState(false);
+        const [score , setScore] = React.useState(null)
+
+
+        // Quiz data
+        const data = [
+
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Madrid", "Paris", "Rome"],
+                correctAnswer: "Paris"
+            },
+            {
+                question: "Who wrote 'To Kill a Mockingbird'?",
+                options: ["Harper Lee", "Mark Twain", "Ernest Hemingway", "F. Scott Fitzgerald"],
+                correctAnswer: "Harper Lee"
+            },
+            {
+                question: "What is the largest planet in our solar system?",
+                options: ["Earth", "Jupiter", "Mars", "Saturn"],
+                correctAnswer: "Jupiter"
+            }
+
+        ]
+
+
+         // Function to handle option change
+         const handleChangeOption = (questionIndex, option) => {
+                setCurrentAns({ ...currentAns, [questionIndex]: option });
+            };
+       
+
+
+
+        function handleSubmit(){
+            let newScore = 0;
+                data.forEach((question, index)=>{
+                 
+                    if(currentAns[index] === question.correctAnswer){
+                        newScore++;
+                    }
+                  
+                });
+
+                setSubmitted(true);
+                setScore(newScore)
+                console.log('Your Score:', newScore);
+               
+        }
+
+
+        return (
+
+        <>
+            <h1>Quiz</h1>
+
+            {data.map(function(ele,i){
+            return( 
+            <div key={i} style={{ marginBottom: '20px' }}>
+            <h3>{ele.question}</h3>
+                   
+                
+                
+            {ele.options.map(function(item , itemIndex){
+
+                return(
+                        
+                <div key={itemIndex}>
+                    <label>
+                        <input
+                            type="radio"
+                            name={`question${i}`}
+                            value={item}
+                            onChange={()=>handleChangeOption(i,item)}
+                            checked = {currentAns[i]===item}
+                            />{item}
+                    </label>
+
+                </div>
+
+                )          
+            })}
+                
+            </div> 
+               
+              )
+              
+            })}
+
+            <button onClick={handleSubmit}>Submit</button>
+
+            {submitted && <h1>Score: {score}</h1>}
+            </>
+        )
+
+    }
+
+    function App() {
+
+        return (
+            <>
+                <Quiz />
+            </>
+        )
+    }
+
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+</script>
+
+</html>
