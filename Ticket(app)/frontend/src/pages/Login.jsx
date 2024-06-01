@@ -48,7 +48,7 @@ if(isLoggedIn){
     <Container>
     <VStack spacing={4} >
     <Heading>
-      <h1>Home Page</h1>
+      <h1>Login Page</h1>
     </Heading>  
 
     <Input 

@@ -7,8 +7,9 @@ import {createContext, useState} from "react"
 
 
 export function AuthContextProvider({children}){
+ 
 const [authDetails, setAuthDetails] = useState({
-    isLoggedIn: true,
+    isLoggedIn: false,
     token:null
 });
 
@@ -27,6 +28,11 @@ function logout(){
         isLoggedIn: false,
         token:null
       });
+      
+      window.location.href = '/login';
+
+
+
 }
 
 
